@@ -19,12 +19,6 @@ metadata <- read.delim(METADATA_FILE, check.names = FALSE, stringsAsFactors = FA
 votu <- read.delim(VOTU_FILE, check.names = FALSE, row.names = 1)
 virus_family <- read.delim(VIRUS_FAMILY_FILE, check.names = FALSE, row.names = 1)
 
-metadata$Group <- recode(metadata$Group,
-                          "Test-P" = "Patient",
-                          "PTB" = "Patient",
-                          "TB" = "Patient",
-                          "HC" = "Health")
-
 custom_colors <- c("Patient" = "#D44D5C", "Health" = "#33a02c")
 
 # Alpha diversity
