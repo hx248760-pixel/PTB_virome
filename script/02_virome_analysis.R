@@ -35,7 +35,6 @@ custom_colors <- GROUP_COLORS
 # ------------------------------------------------------------------------------
 set.seed(123)
 
-# 修正 1：显式接收返回的数据框 alpha_re，彻底避免 object not found 报错
 alpha_re <- calculate_alpha_diversity(
   abundance_data = votu,
   sample_col     = "Sample",
@@ -93,7 +92,6 @@ plot_pcoa_pro(
 # ------------------------------------------------------------------------------
 # 4. Bray-Curtis 离散度齐性检验 (Betadisper Test)
 # ------------------------------------------------------------------------------
-# 修正 2：改用更加稳健的维度对齐方式 (确保行为 Sample，列为 vOTUs)
 if (ncol(votu) == nrow(metadata)) {
   abd_matrix <- t(votu)
 } else {
@@ -117,7 +115,6 @@ print(disp_test)
 # ------------------------------------------------------------------------------
 # 5. 病毒科水平组成堆叠图 (Viral Family Barplot)
 # ------------------------------------------------------------------------------
-# 修正 3：复用开头读取好的 virus_family，无需重复读盘
 plot_family_abundance(
   abundance_df    = virus_family,
   meta_df         = metadata,
