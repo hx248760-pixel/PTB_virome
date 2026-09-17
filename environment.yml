@@ -1,0 +1,35 @@
+name: ptb-virome
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  # ---------- R ----------
+  - r-base=4.3
+  - r-essentials
+  - r-dplyr
+  - r-tidyverse
+  - r-ggplot2
+  - r-ggpubr
+  - r-vegan
+  - r-gridextra
+  - r-proc
+  - r-patchwork
+  - r-igraph
+  - r-ggraph
+  - r-ggtext
+  - r-ggrepel
+  - r-scales
+  - r-tidyr
+  - r-forcats
+  - bioconductor-maaslin2
+
+  # ---------- Python ----------
+  - python=3.10
+  - pandas
+  - numpy
+  - scipy
+  - scikit-learn
+  - dask
+  - parallel
+  - pip
