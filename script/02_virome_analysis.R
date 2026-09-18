@@ -47,6 +47,45 @@ dir.create("results/tables", recursive = TRUE, showWarnings = FALSE)
 write.table(alpha_re, file.path(TABLE_DIR, "alpha_diversity_metrics.tsv"), 
             sep = "\t", quote = FALSE, row.names = FALSE)
 
+#计算alpha多样性的效应量等
+alpha_re$Group <- as.factor(alpha_re$Group)
+
+metrics <- c("Simpson", "Shannon", "Richness")
+results_list <- list()
+
+for (m in metrics) {
+  # 1. 计算各组 Median [IQR]
+  summary_stats <- alpha_re %>%
+    group_by(Group) %>%
+    summarise(
+      med = median(.data[[m]], na.rm = TRUE),
+      q25 = quantile(.data[[m]], 0.25, na.rm = TRUE),
+      q75 = quantile(.data[[m]], 0.75, na.rm = TRUE),
+      .groups = "drop"
+    ) %>%
+    mutate(formatted = sprintf("%.3f [%.3f - %.3f]", med, q25, q75))
+  
+  # 2. 精确 Wilcoxon p-value
+  wt <- wilcox.test(formula(paste(m, "~ Group")), data = alpha_re, exact = FALSE)
+  
+  # 3. Cliff's Delta 效应量及 95% CI
+  cd <- cliff.delta(formula(paste(m, "~ Group")), data = alpha_re, conf.level = 0.95)
+  
+  results_list[[m]] <- data.frame(
+    Metric = m,
+    Group1_Median_IQR = paste0(summary_stats$Group[1], ": ", summary_stats$formatted[1]),
+    Group2_Median_IQR = paste0(summary_stats$Group[2], ": ", summary_stats$formatted[2]),
+    Exact_P = wt$p.value,
+    Cliffs_Delta = sprintf("%.3f", cd$estimate),
+    CI_95 = sprintf("[%.3f, %.3f]", cd$conf.int[1], cd$conf.int[2]),
+    Magnitude = as.character(cd$magnitude)
+  )
+}
+
+final_df <- do.call(rbind, results_list)
+write.table(final_df, file.path(TABLE_DIR, "Alpha_Diversity_Statistical_Summary.tsv"), 
+            sep = "\t", quote = FALSE, row.names = FALSE)
+
 # 绘制与保存 Alpha 多样性箱线图
 p_simpson <- ggplot(alpha_re, aes(x = Group, y = Simpson, fill = Group)) +
   geom_boxplot(alpha = 0.6, outlier.shape = NA) +
