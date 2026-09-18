@@ -20,14 +20,6 @@ and external cohort validation.
 
 ```
 .
-├── 01_bac_analysis.R               # Bacterial differential abundance (MaAsLin2)
-├── 02_virome_analysis.R            # Alpha / Beta diversity, family barplot
-├── 03_differential_analysis.R      # Viral differential abundance, volcano, pie, host
-├── 04_functional_analysis.R        # KO functional enrichment (Fisher)
-├── 05_prepare_inputf.R             # Prepare correlation inputs + run calc_corr.py
-├── 05_network_analysis.R           # Co-occurrence network analysis & visualization
-├── 06_random_forest.R              # Random forest (importance, K-fold, ROC, Top20)
-├── 06_random_forest_external.R     # External validation of RF models
 ├── environment.yml                 # Conda environment for R + Python
 ├── data/
 │   ├── metadata.tsv
@@ -58,7 +50,15 @@ and external cohort validation.
 │   ├── calc_corr.py                # Spearman correlation (multi-thread)
 │   ├── rf.py                       # Random forest engine
 │   ├── run_rf.sh                   # RF pipeline shell script
-│   └── run_rf_external.sh          # RF external validation shell script
+│   ├── run_rf_external.sh          # RF external validation shell script
+|   ├── 01_bac_analysis.R               # Bacterial differential abundance (MaAsLin2)
+|   ├── 02_virome_analysis.R            # Alpha / Beta diversity, family barplot
+|   ├── 03_differential_analysis.R      # Viral differential abundance, volcano, pie, host
+|   ├── 04_functional_analysis.R        # KO functional enrichment (Fisher)
+|   ├── 05_prepare_inputf.R             # Prepare correlation inputs + run calc_corr.py
+|   ├── 05_network_analysis.R           # Co-occurrence network analysis & visualization
+|   ├── 06_random_forest.R              # Random forest (importance, K-fold, ROC, Top20)
+|   └── 06_random_forest_external.R     # External validation of RF models
 └── results/                        # Auto-generated
     ├── figures/
     ├── tables/
