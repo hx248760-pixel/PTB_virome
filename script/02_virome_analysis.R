@@ -75,7 +75,7 @@ for (m in metrics) {
     Metric = m,
     Group1_Median_IQR = paste0(summary_stats$Group[1], ": ", summary_stats$formatted[1]),
     Group2_Median_IQR = paste0(summary_stats$Group[2], ": ", summary_stats$formatted[2]),
-    Exact_P = wt$p.value,
+    P_value = wt$p.value,
     Cliffs_Delta = sprintf("%.3f", cd$estimate),
     CI_95 = sprintf("[%.3f, %.3f]", cd$conf.int[1], cd$conf.int[2]),
     Magnitude = as.character(cd$magnitude)
@@ -83,6 +83,7 @@ for (m in metrics) {
 }
 
 final_df <- do.call(rbind, results_list)
+final_df$FDR_q <- p.adjust(final_df$P_value, method = "BH")
 write.table(final_df, file.path(TABLE_DIR, "Alpha_Diversity_Statistical_Summary.tsv"), 
             sep = "\t", quote = FALSE, row.names = FALSE)
 
