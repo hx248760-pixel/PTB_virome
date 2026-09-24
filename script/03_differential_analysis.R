@@ -8,7 +8,7 @@ rm(list = ls())
 source("script/config.R")
 
 library(tidyverse)
-library(Maaslin2) # 修正 1：规范包名大小写
+library(Maaslin2) 
 library(ggplot2)
 
 dir.create(MAASLIN_DIR, recursive = TRUE, showWarnings = FALSE)
